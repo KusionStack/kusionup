@@ -226,10 +226,10 @@ var (
 )
 
 var (
-	remoteUrl = "git@github.com:KusionStack/kusionup.git"
+	remoteUrl = "git@github.com:github/platform-samples.git"
 	commitSHA = "dab4a43ab74dca22c5b8390f70dd9ccad888511e"
-	localTag  = "v0.1.0"
-	remoteTag = "v0.1.0"
+	localTag  = "v0.2.7"
+	remoteTag = "v0.2.7"
 )
 
 func mockCombinedOutput(output []byte, err error) {
