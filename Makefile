@@ -46,10 +46,3 @@ build-windows: gen-version ## Build for Windows
 	GOOS=windows GOARCH=amd64 CGO_ENABLED=0 \
 		go build -o ./build/windows/$(APPROOT).exe \
 		./cmd
-
-# Install git-chglog before execution:
-#   go install github.com/git-chglog/git-chglog/cmd/git-chglog@latest
-.PHONY: build-changelog
-build-changelog: ## Build changelog
-	mkdir -p ./build
-	git-chglog -o ./build/CHANGELOG.md
