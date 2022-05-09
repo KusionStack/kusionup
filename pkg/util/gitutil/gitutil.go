@@ -7,7 +7,7 @@ import (
 )
 
 // https://git-scm.com/docs/git-tag
-// https://github.com/vivin/better-setuptools-git-version/blob/master/better_setuptools_git_version.py
+// https://github.com/vivin/better-setuptools-git-version/blob/main/better_setuptools_git_version.py
 
 var ErrEmptyGitTag = errors.New("empty tag")
 
