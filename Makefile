@@ -7,6 +7,9 @@ include go.mk
 
 .PHONY: gen-version
 gen-version: ## Update version
+	# Delete old version file
+	-rm -f ./pkg/version/z_update_version.go
+	# Generates new version file
 	cd pkg/version/scripts && go run gen.go
 
 .PHONY: clean
@@ -24,8 +27,8 @@ build-darwin: gen-version ## Build for MacOS
 		./cmd
 
 .PHONY: build-darwin-arm64
-build-darwin-arm64: gen-version ## Build for MacOS arm64
-	-rm -rf ./build/darwin
+build-darwin-arm64: gen-version ## Build for MacOS-arm64
+	-rm -rf ./build/darwin-arm64
 	GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 \
 		go build -o ./build/darwin-arm64/$(APPROOT) \
 		./cmd
@@ -46,6 +49,7 @@ build-windows: gen-version ## Build for Windows
 
 # Install git-chglog before execution:
 #   go install github.com/git-chglog/git-chglog/cmd/git-chglog@latest
-build-changelog:
+.PHONY: build-changelog
+build-changelog: ## Build changelog
 	mkdir -p ./build
 	git-chglog -o ./build/CHANGELOG.md
