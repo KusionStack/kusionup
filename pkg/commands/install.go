@@ -4,7 +4,6 @@ import (
 	"archive/tar"
 	"archive/zip"
 	"compress/gzip"
-	"crypto/sha256"
 	"errors"
 	"fmt"
 	"io"
@@ -320,41 +319,6 @@ func unpackZip(targetDir, archiveFile string) error {
 		}
 	}
 	return nil
-}
-
-// verifySHA256 reports whether the named file has contents with
-// SHA-256 of the given wantHex value.
-func verifySHA256(file, wantHex string) error {
-	f, err := os.Open(file)
-	if err != nil {
-		return err
-	}
-	defer f.Close()
-	hash := sha256.New()
-	if _, err := io.Copy(hash, f); err != nil {
-		return err
-	}
-	if fmt.Sprintf("%x", hash.Sum(nil)) != wantHex {
-		return fmt.Errorf("%s corrupt? does not have expected SHA-256 of %v", file, wantHex)
-	}
-	return nil
-}
-
-// slurpURLToString downloads the given URL and returns it as a string.
-func slurpURLToString(url_ string) (string, error) {
-	res, err := http.Get(url_)
-	if err != nil {
-		return "", err
-	}
-	defer res.Body.Close()
-	if res.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("%s: %v", url_, res.Status)
-	}
-	slurp, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return "", fmt.Errorf("reading %s: %v", url_, err)
-	}
-	return string(slurp), nil
 }
 
 // copyFromURL downloads srcURL to dstFile.
