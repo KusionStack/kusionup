@@ -1,4 +1,4 @@
-package open
+package github
 
 var downloadUrlMap map[string]string = map[string]string{
 	"linux-amd64":   "http://TODO/cli/kusion-open/latest/kusion-linux.tgz",
