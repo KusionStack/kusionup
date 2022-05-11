@@ -19,7 +19,7 @@ a prompt will show to select a installed Kusion version.`,
 	}
 }
 
-func runDefault(cmd *cobra.Command, args []string) error {
+func runDefault(_ *cobra.Command, args []string) error {
 	if len(args) > 0 {
 		return switchVer(args[0])
 	}
@@ -40,6 +40,7 @@ func runDefault(cmd *cobra.Command, args []string) error {
 
 	for idx, v := range vers {
 		items = append(items, v.Ver)
+
 		if v.Current {
 			pos = idx
 		}
@@ -57,9 +58,5 @@ func runDefault(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	if err := switchVer(ver); err != nil {
-		return err
-	}
-
-	return nil
+	return switchVer(ver)
 }

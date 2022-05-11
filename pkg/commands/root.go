@@ -29,6 +29,7 @@ func init() {
 	}
 
 	var err error
+
 	homedir, err = os.UserHomeDir()
 	if err != nil {
 		logger.Fatal(err)
@@ -64,7 +65,7 @@ func NewCommand() *cobra.Command {
 	return rootCmd
 }
 
-func preRunRoot(cmd *cobra.Command, args []string) error {
+func preRunRoot(_ *cobra.Command, _ []string) error {
 	if rootCmdVerboseFlag {
 		logger.SetLevel(logrus.DebugLevel)
 	}

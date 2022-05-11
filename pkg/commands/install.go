@@ -36,12 +36,12 @@ func installCmd() *cobra.Command {
 	return installCmd
 }
 
-func preRunInstall(cmd *cobra.Command, args []string) error {
+func preRunInstall(_ *cobra.Command, _ []string) error {
 	http.DefaultTransport = &userAgentTransport{http.DefaultTransport}
 	return nil
 }
 
-func runInstall(cmd *cobra.Command, args []string) error {
+func runInstall(_ *cobra.Command, args []string) error {
 	var (
 		sourceVer string
 		err       error
@@ -63,11 +63,7 @@ func runInstall(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	if err := switchVer(GetSourceVersionTitle(source, ver)); err != nil {
-		return err
-	}
-
-	return nil
+	return switchVer(GetSourceVersionTitle(source, ver))
 }
 
 func latestKusionSourceVersion() string {
@@ -90,10 +86,10 @@ func symlink(verSuffix string) error {
 
 	if _, err := os.Stat(versionDir); err != nil {
 		if os.IsNotExist(err) {
-			return fmt.Errorf("Kusion version %s is not installed. Install it with `kusionup install`.", verSuffix)
-		} else {
-			return err
+			return fmt.Errorf("kusion version %s is not installed. Install it with `kusionup install`", verSuffix)
 		}
+
+		return err
 	}
 
 	// ignore error, similar to rm -f
@@ -128,6 +124,7 @@ func install(source, version string) error {
 	if err != nil {
 		return err
 	}
+	defer res.Body.Close()
 
 	if res.StatusCode == http.StatusNotFound {
 		return fmt.Errorf("no binary release of %v for %v/%v at %v", version, getOS(), runtime.GOARCH, downloadURL)
@@ -205,28 +202,36 @@ func unpackTarGz(targetDir, archiveFile string) error {
 		return err
 	}
 	defer r.Close()
+
 	madeDir := map[string]bool{}
+
 	zr, err := gzip.NewReader(r)
 	if err != nil {
 		return err
 	}
+
 	tr := tar.NewReader(zr)
+
 	for {
 		f, err := tr.Next()
 		if err == io.EOF {
 			break
 		}
+
 		if err != nil {
 			return err
 		}
+
 		if !validRelPath(f.Name) {
 			return fmt.Errorf("tar file contained invalid name %q", f.Name)
 		}
+
 		rel := filepath.FromSlash(strings.TrimPrefix(f.Name, "go/"))
 		abs := filepath.Join(targetDir, rel)
 
 		fi := f.FileInfo()
 		mode := fi.Mode()
+
 		switch {
 		case mode.IsRegular():
 			// Make the directory. This is redundant because it should
@@ -238,22 +243,28 @@ func unpackTarGz(targetDir, archiveFile string) error {
 				if err := os.MkdirAll(filepath.Dir(abs), 0o755); err != nil {
 					return err
 				}
+
 				madeDir[dir] = true
 			}
+
 			wf, err := os.OpenFile(abs, os.O_RDWR|os.O_CREATE|os.O_TRUNC, mode.Perm())
 			if err != nil {
 				return err
 			}
+
 			n, err := io.Copy(wf, tr)
 			if closeErr := wf.Close(); closeErr != nil && err == nil {
 				err = closeErr
 			}
+
 			if err != nil {
 				return fmt.Errorf("error writing to %s: %v", abs, err)
 			}
+
 			if n != f.Size {
 				return fmt.Errorf("only wrote %d bytes to %s; expected %d", n, abs, f.Size)
 			}
+
 			if !f.ModTime.IsZero() {
 				if err := os.Chtimes(abs, f.ModTime, f.ModTime); err != nil {
 					// benign error. Gerrit doesn't even set the
@@ -268,11 +279,13 @@ func unpackTarGz(targetDir, archiveFile string) error {
 			if err := os.MkdirAll(abs, 0o755); err != nil {
 				return err
 			}
+
 			madeDir[abs] = true
 		default:
 			return fmt.Errorf("tar file entry %s contained unsupported file type %v", f.Name, mode)
 		}
 	}
+
 	return nil
 }
 
@@ -292,6 +305,7 @@ func unpackZip(targetDir, archiveFile string) error {
 			if err := os.MkdirAll(outpath, 0o755); err != nil {
 				return err
 			}
+
 			continue
 		}
 
@@ -304,20 +318,25 @@ func unpackZip(targetDir, archiveFile string) error {
 		if err := os.MkdirAll(filepath.Dir(outpath), 0o755); err != nil {
 			return err
 		}
+
 		out, err := os.OpenFile(outpath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, f.Mode())
 		if err != nil {
 			return err
 		}
+
 		_, err = io.Copy(out, rc)
 		rc.Close()
+
 		if err != nil {
 			out.Close()
 			return err
 		}
+
 		if err := out.Close(); err != nil {
 			return err
 		}
 	}
+
 	return nil
 }
 
@@ -327,12 +346,14 @@ func copyFromURL(dstFile, srcURL string) (err error) {
 	if err != nil {
 		return err
 	}
+
 	defer func() {
 		if err != nil {
 			f.Close()
 			os.Remove(dstFile)
 		}
 	}()
+
 	c := &http.Client{
 		Transport: &userAgentTransport{&http.Transport{
 			// It's already compressed. Prefer accurate ContentLength.
@@ -342,23 +363,30 @@ func copyFromURL(dstFile, srcURL string) (err error) {
 			Proxy:              http.ProxyFromEnvironment,
 		}},
 	}
+
 	res, err := c.Get(srcURL)
 	if err != nil {
 		return err
 	}
 	defer res.Body.Close()
+
 	if res.StatusCode != http.StatusOK {
 		return errors.New(res.Status)
 	}
+
 	pw := &progressWriter{w: f, total: res.ContentLength}
+
 	n, err := io.Copy(pw, res.Body)
 	if err != nil {
 		return err
 	}
+
 	if res.ContentLength != -1 && res.ContentLength != n {
 		return fmt.Errorf("copied %v bytes; expected %v", n, res.ContentLength)
 	}
+
 	pw.update() // 100%
+
 	return f.Close()
 }
 
@@ -374,6 +402,7 @@ func (p *progressWriter) update() {
 	if p.n == p.total {
 		end = ""
 	}
+
 	fmt.Fprintf(os.Stderr, "Downloaded %5.1f%% (%*d / %d bytes)%s\n",
 		(100.0*float64(p.n))/float64(p.total),
 		ndigits(p.total), p.n, p.total, end)
@@ -384,16 +413,19 @@ func ndigits(i int64) int {
 	for ; i != 0; i /= 10 {
 		n++
 	}
+
 	return n
 }
 
 func (p *progressWriter) Write(buf []byte) (n int, err error) {
 	n, err = p.w.Write(buf)
 	p.n += int64(n)
+
 	if now := time.Now(); now.Unix() != p.last.Unix() {
 		p.update()
 		p.last = now
 	}
+
 	return
 }
 
@@ -411,6 +443,7 @@ func validRelPath(p string) bool {
 	if p == "" || strings.Contains(p, `\`) || strings.HasPrefix(p, "/") || strings.Contains(p, "../") {
 		return false
 	}
+
 	return true
 }
 
@@ -424,6 +457,8 @@ func (uat userAgentTransport) RoundTrip(r *http.Request) (*http.Response, error)
 		// Strip the SHA hash and date. We don't want spaces or other tokens (see RFC2616 14.43)
 		version = "devel"
 	}
+
 	r.Header.Set("User-Agent", "kusionup/"+version)
+
 	return uat.rt.RoundTrip(r)
 }

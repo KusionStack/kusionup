@@ -28,14 +28,18 @@ func preRunReinstall(cmd *cobra.Command, args []string) error {
 
 func runReinstall(cmd *cobra.Command, args []string) error {
 	logger.Printf("Reinstalling %s ...", args[0])
+
 	uninstallCmd := uninstallCmd()
+
 	err := uninstallCmd.Flags().Lookup("ignore-hint").Value.Set("true")
 	if err != nil {
 		return err
 	}
+
 	err = uninstallCmd.RunE(uninstallCmd, args)
 	if err != nil {
 		return err
 	}
+
 	return installCmd().RunE(cmd, args)
 }

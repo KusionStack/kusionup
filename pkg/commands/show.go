@@ -21,7 +21,7 @@ func showCmd() *cobra.Command {
 	}
 }
 
-func runShow(cmd *cobra.Command, args []string) error {
+func runShow(_ *cobra.Command, _ []string) error {
 	vers, err := listKusionVers()
 	if err != nil {
 		return err
@@ -77,6 +77,7 @@ func listKusionVers() ([]goVer, error) {
 	}
 
 	var vers []goVer
+
 	for _, file := range files {
 		if strings.HasPrefix(file.Name(), "kusion") {
 			vers = append(vers, goVer{
@@ -91,6 +92,7 @@ func listKusionVers() ([]goVer, error) {
 
 func currentKusionVersion() (string, error) {
 	current := KusionupCurrentDir()
+
 	goroot, err := os.Readlink(current)
 	if err != nil {
 		return "", err

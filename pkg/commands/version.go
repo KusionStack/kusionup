@@ -12,7 +12,7 @@ func versionCmd() *cobra.Command {
 		Use:     "version",
 		Aliases: []string{"v"},
 		Short:   `Show kusionup version, alias: "v"`,
-		RunE: func(c *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			_, err := fmt.Printf("kusionup version %s\n", version.ReleaseVersion())
 			return err
 		},

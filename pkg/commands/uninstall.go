@@ -29,7 +29,7 @@ func uninstallCmd() *cobra.Command {
 
 func runUninstall(cmd *cobra.Command, args []string) error {
 	if len(args) == 0 {
-		return fmt.Errorf("No version is specified")
+		return fmt.Errorf("no version is specified")
 	}
 
 	for _, ver := range args {

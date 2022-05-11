@@ -23,16 +23,13 @@ list all available versions.`,
 	}
 }
 
-func runList(cmd *cobra.Command, args []string) error {
+func runList(_ *cobra.Command, args []string) error {
 	var regexp string
 	if len(args) > 0 {
 		regexp = args[0]
 	}
 
-	vers, err := listKusionVersions(regexp)
-	if err != nil {
-		return err
-	}
+	vers := listKusionVersions(regexp)
 
 	for _, ver := range vers {
 		fmt.Println(ver)
@@ -41,7 +38,7 @@ func runList(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func listKusionVersions(re string) ([]string, error) {
+func listKusionVersions(re string) []string {
 	if re == "" {
 		re = ".+"
 	} else {
@@ -60,5 +57,5 @@ func listKusionVersions(re string) ([]string, error) {
 		}
 	}
 
-	return vers, nil
+	return vers
 }
