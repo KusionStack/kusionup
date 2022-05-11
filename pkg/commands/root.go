@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 
 	"github.com/KusionStack/kusionup/pkg/sources"
-	"github.com/KusionStack/kusionup/pkg/sources/open"
+	"github.com/KusionStack/kusionup/pkg/sources/github"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -25,7 +25,7 @@ func init() {
 
 	// Init release sources
 	registedReleaseSources = map[string]sources.ReleaseSource{
-		open.OpenReleaseSource.GetName(): open.OpenReleaseSource,
+		github.GithubReleaseSource.GetName(): github.GithubReleaseSource,
 	}
 
 	var err error

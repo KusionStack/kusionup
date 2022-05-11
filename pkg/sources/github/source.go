@@ -1,4 +1,4 @@
-package open
+package github
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"github.com/KusionStack/kusionup/pkg/sources"
 )
 
-var OpenReleaseSource sources.ReleaseSource = &releaseSource{}
+var GithubReleaseSource sources.ReleaseSource = &releaseSource{}
 
 type releaseSource struct {
 	name string // release source name
