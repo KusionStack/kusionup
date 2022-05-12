@@ -16,13 +16,13 @@ func ParseSourceVersion(title string) (source, version string, err error) {
 	s := strings.Split(title, "@")
 	if len(s) != 2 {
 		return "", "", fmt.Errorf("invalid source version key: %s", title)
-	} else {
-		if _, ok := registedReleaseSources[s[0]]; ok {
-			return s[0], s[1], nil
-		} else {
-			return "", "", fmt.Errorf("unsupported source: %s", s[0])
-		}
 	}
+
+	if _, ok := registedReleaseSources[s[0]]; ok {
+		return s[0], s[1], nil
+	}
+
+	return "", "", fmt.Errorf("unsupported source: %s", s[0])
 }
 
 // e.g. /Users/user/.kusionup/bin
@@ -50,6 +50,7 @@ func KusionupVersionDir(ver string) string {
 	if !strings.HasPrefix(ver, "kusion-") {
 		ver = "kusion-" + ver
 	}
+
 	return KusionupDir(ver)
 }
 

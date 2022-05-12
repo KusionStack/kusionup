@@ -24,9 +24,9 @@ func (s *releaseSource) GetVersions() []string {
 }
 
 func (s *releaseSource) GetDownloadURL(ver string) (string, error) {
-	if url, ok := downloadUrlMap[getOsArchKey(runtime.GOOS, runtime.GOARCH)]; ok {
+	if url, ok := downloadURLMap[getOsArchKey(runtime.GOOS, runtime.GOARCH)]; ok {
 		return url, nil
-	} else {
-		return "", fmt.Errorf("unsupported os/arch: %s/%s", runtime.GOOS, runtime.GOARCH)
 	}
+
+	return "", fmt.Errorf("unsupported os/arch: %s/%s", runtime.GOOS, runtime.GOARCH)
 }

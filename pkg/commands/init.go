@@ -13,8 +13,10 @@ import (
 )
 
 const (
+	// KusionupEnvFileContent is the content of the kusionup environment file
 	KusionupEnvFileContent = `export PATH=$HOME/.kusionup/bin:$HOME/.kusionup/current/bin:$HOME/.kusionup/current/kclvm/bin:$PATH
 export KUSION_PATH=$HOME/.kusionup/current`
+	// ProfileFileSourceContent is the content of the kusionup profile file
 	ProfileFileSourceContent = `source "$HOME/.kusionup/env"`
 
 	welcomeTmpl = `Welcome to kusionup!
@@ -87,7 +89,6 @@ func runInit(cmd *cobra.Command, args []string) error {
 		if _, err := prompt.Run(); err != nil {
 			return fmt.Errorf("interrupted")
 		}
-
 	}
 
 	ef := KusionupEnvFile()
@@ -133,6 +134,7 @@ func appendToFile(filename, value string) error {
 	if err != nil {
 		return err
 	}
+
 	if ok {
 		return nil
 	}
@@ -156,6 +158,7 @@ func checkStringExistsFile(filename, value string) (bool, error) {
 		if os.IsNotExist(err) {
 			return false, nil
 		}
+
 		return false, err
 	}
 	defer file.Close()

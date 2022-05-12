@@ -12,10 +12,10 @@ func ShortString() string {
 	return versionInfo.ShortString()
 }
 
-func Json() string {
-	return versionInfo.Json()
+func JSON() string {
+	return versionInfo.JSON()
 }
 
-func Yaml() string {
-	return versionInfo.Yaml()
+func YAML() string {
+	return versionInfo.YAML()
 }
