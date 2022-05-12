@@ -4,4 +4,3 @@
   - It should pass all tests in the available continuous integration systems such as GitHub Actions.
   - You should add/modify tests to cover your proposed code changes.
   - If your pull request contains a new feature, please document it on the README.
-
