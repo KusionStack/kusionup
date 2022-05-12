@@ -49,17 +49,17 @@ release:
   draft: false
   footer: |
     ## Docker Images
-    * `KusionStack/kusionup:{{ .Tag }}`
-    * `KusionStack/kusionup:{{ .Tag }}-arm64`
+    * `kusionstack/kusionup:{{ .Tag }}`
+    * `kusionstack/kusionup:{{ .Tag }}-arm64`
 
     ## Thanks!
 
 dockers:
 - image_templates:
-  - 'KusionStack/{{ .ProjectName }}:{{ .Tag }}'
-  - 'KusionStack/{{ .ProjectName }}:latest'
-  # - 'ghcr.io/KusionStack/{{ .ProjectName }}:{{ .Tag }}'
-  # - 'ghcr.io/KusionStack/{{ .ProjectName }}:latest'
+  - 'kusionstack/{{ .ProjectName }}:{{ .Tag }}'
+  - 'kusionstack/{{ .ProjectName }}:latest'
+  # - 'ghcr.io/kusionstack/{{ .ProjectName }}:{{ .Tag }}'
+  # - 'ghcr.io/kusionstack/{{ .ProjectName }}:latest'
   dockerfile: Dockerfile
   use: docker
   build_flag_templates:
@@ -71,8 +71,8 @@ dockers:
   - "--label=org.opencontainers.image.source={{.GitURL}}"
   - "--platform=linux/amd64"
 - image_templates:
-  - 'KusionStack/{{ .ProjectName }}:{{ .Tag }}-arm64'
-  # - 'ghcr.io/KusionStack/{{ .ProjectName }}:{{ .Tag }}-arm64'
+  - 'kusionstack/{{ .ProjectName }}:{{ .Tag }}-arm64'
+  # - 'ghcr.io/kusionstack/{{ .ProjectName }}:{{ .Tag }}-arm64'
   dockerfile: Dockerfile
   use: docker
   build_flag_templates:
