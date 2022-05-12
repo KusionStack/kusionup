@@ -2,7 +2,7 @@
 
 [![GitHub release](https://img.shields.io/github/release/KusionStack/kusionup.svg)](https://github.com/KusionStack/kusionup/releases)
 [![Github All Releases](https://img.shields.io/github/downloads/KusionStack/kusionup/total.svg)](https://github.com/KusionStack/kusionup/releases)
-[![docker pulls](https://img.shields.io/docker/pulls/KusionStack/kusionup)](https://hub.docker.com/r/KusionStack/kusionup)
+[![docker pulls](https://img.shields.io/docker/pulls/kusionstack/kusionup)](https://hub.docker.com/r/KusionStack/kusionup)
 [![license](https://img.shields.io/github/license/KusionStack/kusionup.svg)](https://github.com/KusionStack/kusionup/blob/main/LICENSE)
 [![Go Reference](https://pkg.go.dev/badge/github.com/KusionStack/kusionup.svg)](https://pkg.go.dev/github.com/KusionStack/kusionup)
 [![Coverage Status](https://coveralls.io/repos/github/KusionStack/kusionup/badge.svg)](https://coveralls.io/github/KusionStack/kusionup)
