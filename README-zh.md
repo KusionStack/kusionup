@@ -52,7 +52,7 @@ go install github.com/KusionStack/kusionup/cmd@latest
 Docker 用户可以用以下命令拉取 `kusionup` 的镜像：
 
 ```
-docker pull KusionStack/kusionup
+docker pull kusionstack/kusionup:latest
 ```
 
 ## ⚡ 使用
