@@ -52,7 +52,7 @@ go install github.com/KusionStack/kusionup/cmd@latest
 Docker users can use the following commands to pull the latest image of the `kusionup`:
 
 ```
-docker pull KusionStack/kusionup
+docker pull kusionstack/kusionup:latest
 ```
 
 ## ⚡ Usage
