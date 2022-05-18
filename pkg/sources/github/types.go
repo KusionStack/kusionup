@@ -17,9 +17,9 @@ func getArchiveDownloadURL(ver string) (string, error) {
 
 	if urlPattern, ok := archiveDownloadURLMap[getOsArchKey(runtime.GOOS, runtime.GOARCH)]; ok {
 		return fmt.Sprintf(urlPattern, ver), nil
-	} else {
-		return "", ErrUnsupportedOsArch
 	}
+
+	return "", ErrUnsupportedOsArch
 }
 
 func getOsArchKey(goos, goarch string) string {
