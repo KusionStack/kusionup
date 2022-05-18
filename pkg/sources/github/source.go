@@ -1,10 +1,8 @@
 package github
 
 import (
-	"fmt"
-	"runtime"
-
 	"github.com/KusionStack/kusionup/pkg/sources"
+	"github.com/KusionStack/kusionup/pkg/util/gitutil"
 )
 
 var GithubReleaseSource sources.ReleaseSource = &releaseSource{}
@@ -14,19 +12,45 @@ type releaseSource struct {
 }
 
 func (s *releaseSource) GetName() string {
-	s.name = "open"
+	s.name = "github"
 
 	return s.name
 }
 
 func (s *releaseSource) GetVersions() []string {
-	return []string{"latest"}
+	versions := []string{}
+
+	// Get tags from github repo of kusion
+	remoteURL := "git@github.com:KusionStack/kusion"
+
+	tags, err := gitutil.GetTagListFromRemote(remoteURL, true)
+	if err != nil {
+		// klog.Warningf("Get tag list from remote failed, err: %v", err)
+		return versions
+	}
+
+	// Hidden timeout tags
+	isHiddenTag := getIsHiddenTag()
+	for _, tag := range tags {
+		if _, hidden := isHiddenTag[tag]; !hidden {
+			versions = append(versions, tag)
+		}
+	}
+
+	return versions
 }
 
 func (s *releaseSource) GetDownloadURL(ver string) (string, error) {
-	if url, ok := downloadURLMap[getOsArchKey(runtime.GOOS, runtime.GOARCH)]; ok {
-		return url, nil
+	return getArchiveDownloadURL(ver)
+}
+
+func getIsHiddenTag() map[string]struct{} {
+	hiddenTags := []string{"v0.4.0"}
+	isHiddenTag := make(map[string]struct{})
+
+	for _, tag := range hiddenTags {
+		isHiddenTag[tag] = struct{}{}
 	}
 
-	return "", fmt.Errorf("unsupported os/arch: %s/%s", runtime.GOOS, runtime.GOARCH)
+	return isHiddenTag
 }
