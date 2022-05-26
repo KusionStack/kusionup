@@ -21,7 +21,7 @@ func (s *releaseSource) GetVersions() []string {
 	versions := []string{"latest"}
 
 	// Get tags from github repo of kusion
-	remoteURL := "git@github.com:KusionStack/kusion"
+	remoteURL := "https://github.com/KusionStack/kusion"
 
 	tags, err := gitutil.GetTagListFromRemote(remoteURL, true)
 	if err != nil {
@@ -41,8 +41,9 @@ func (s *releaseSource) GetVersions() []string {
 }
 
 func (s *releaseSource) GetDownloadURL(ver string) (string, error) {
-	if ver == "latest" {
-		return getArchiveDownloadURL(s.GetVersions()[1])
+	vers := s.GetVersions()
+	if ver == "latest" && len(vers) > 0 {
+		return getArchiveDownloadURL(vers[1])
 	}
 
 	return getArchiveDownloadURL(ver)
