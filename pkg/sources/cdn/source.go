@@ -5,7 +5,7 @@ import (
 	"github.com/KusionStack/kusionup/pkg/util/gitutil"
 )
 
-var GithubReleaseSource sources.ReleaseSource = &releaseSource{}
+var CDNReleaseSource sources.ReleaseSource = &releaseSource{}
 
 type releaseSource struct {
 	name string // release source name
