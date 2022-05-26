@@ -7,7 +7,9 @@ import (
 	"github.com/KusionStack/kusionup/pkg/sources"
 	"github.com/KusionStack/kusionup/pkg/sources/cdn"
 	"github.com/KusionStack/kusionup/pkg/sources/github"
+	"github.com/KusionStack/kusionup/third_party/config"
 	"github.com/sirupsen/logrus"
+	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
 )
 
@@ -18,6 +20,7 @@ var (
 	ProfileFiles []string
 
 	rootCmdVerboseFlag     bool
+	customSourcesFile      string
 	registedReleaseSources map[string]sources.ReleaseSource
 )
 
@@ -27,7 +30,7 @@ func init() {
 	// Init release sources
 	registedReleaseSources = map[string]sources.ReleaseSource{
 		github.GithubReleaseSource.GetName(): github.GithubReleaseSource,
-		cdn.GithubReleaseSource.GetName():    cdn.GithubReleaseSource,
+		cdn.CDNReleaseSource.GetName():       cdn.CDNReleaseSource,
 	}
 
 	var err error
@@ -54,6 +57,7 @@ func NewCommand() *cobra.Command {
 	}
 
 	rootCmd.PersistentFlags().BoolVarP(&rootCmdVerboseFlag, "verbose", "v", false, "Verbose")
+	rootCmd.PersistentFlags().StringVarP(&customSourcesFile, "custom-sources-file", "c", "", "Custom sources file")
 
 	rootCmd.AddCommand(defaultCmd())
 	rootCmd.AddCommand(initCmd())
@@ -70,6 +74,26 @@ func NewCommand() *cobra.Command {
 func preRunRoot(_ *cobra.Command, _ []string) error {
 	if rootCmdVerboseFlag {
 		logger.SetLevel(logrus.DebugLevel)
+	}
+
+	if customSourcesFile == "" {
+		customSourcesFile = KusionupDir(DefaultCustomSourceConfigFilename)
+	}
+
+	// Init custom sources from profile file
+	if config.IsValidConfigFilename(customSourcesFile) {
+		sources := &CustomSources{}
+
+		err := config.FromFile(afero.NewOsFs(), customSourcesFile, sources)
+		if err != nil && customSourcesFile != KusionupDir(DefaultCustomSourceConfigFilename) {
+			logger.Printf("Failed to load custom sources from %s: %s\n", customSourcesFile, err)
+		} else {
+			for i := 0; i < len(sources.Sources); i++ {
+				registedReleaseSources[sources.Sources[i].Name] = &sources.Sources[i]
+			}
+		}
+	} else {
+		logger.Printf("Invalid custom sources file: %s\n", customSourcesFile)
 	}
 
 	return nil
