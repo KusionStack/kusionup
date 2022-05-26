@@ -24,10 +24,11 @@ func installCmd() *cobra.Command {
 		Use:     "install [VERSION]",
 		Aliases: []string{"i"},
 		Short:   `Install Kusion with a version, alias: "i"`,
-		Long:    `Install Kusion by providing a version. If no version is provided, install the latest Kusion (internal@latest).`,
+		Long:    `Install Kusion by providing a version. If no version is provided, install the latest Kusion (cdn@latest).`,
 		Example: `
   kusionup install
-  kusionup install internal@1.15.2
+  kusionup install cdn@v1.2.3
+  kusionup install github@v1.2.3
 `,
 		PersistentPreRunE: preRunInstall,
 		RunE:              runInstall,
@@ -67,7 +68,7 @@ func runInstall(_ *cobra.Command, args []string) error {
 }
 
 func latestKusionSourceVersion() string {
-	return "internal@latest"
+	return "cdn@latest"
 }
 
 func switchVer(verSuffix string) error {

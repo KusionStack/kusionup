@@ -109,7 +109,7 @@ func runInit(cmd *cobra.Command, args []string) error {
 
 	if !initCmdSkipInstallFlag {
 		// Add a line break
-		fmt.Printf("\nNow, start installing the latest version of Kusion (internal@latest):\n")
+		fmt.Printf("\nNow, start installing the latest version of Kusion (cdn@latest):\n")
 
 		if err := runInstall(cmd, args); err != nil {
 			return err
