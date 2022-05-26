@@ -9,10 +9,11 @@ func reinstallCmd() *cobra.Command {
 		Use:     "reinstall [VERSION]",
 		Aliases: []string{"ri"},
 		Short:   `Reinstall Kusion with a version, alias: "ri"`,
-		Long:    `Reinstall Kusion by providing a version. If no version is provided, reinstall the latest Kusion (internal@latest).`,
+		Long:    `Reinstall Kusion by providing a version. If no version is provided, reinstall the latest Kusion (cdn@latest).`,
 		Example: `
   kusionup reinstall
-  kusionup reinstall internal@1.15.2
+  kusionup reinstall cdn@v1.2.3
+  kusionup reinstall github@v1.2.3
 `,
 		PersistentPreRunE: preRunReinstall,
 		RunE:              runReinstall,
