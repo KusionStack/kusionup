@@ -75,4 +75,4 @@ jobs:
           version: latest
           args: release --rm-dist
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.KUSIONSTACK_BOT_TOKEN }}
