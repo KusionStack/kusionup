@@ -33,10 +33,16 @@ To get the binary just download the latest release for your OS/Arch from the [re
 
 ### Homebrew
 
-The `KusionStack/tap` has macOS and GNU/Linux pre-built binaries available:
+The `KusionStack/tap` has macOS and GNU/Linux pre-built binaries available.
 
+First installation:
 ```
-brew install KusionStack/tap/kusionup
+brew install KusionStack/tap/kusionup && kusionup init
+```
+
+Upgrade:
+```
+brew upgrade KusionStack/tap/kusionup
 ```
 
 ### Build from Source
@@ -44,7 +50,7 @@ brew install KusionStack/tap/kusionup
 Starting with Go 1.17, you can install `kusionup` from source using go install:
 
 ```
-go install github.com/KusionStack/kusionup/cmd@latest
+go install github.com/KusionStack/kusionup/cmd@latest && kusionup init
 ```
 
 ### Docker
@@ -58,7 +64,15 @@ docker pull kusionstack/kusionup:latest
 ## ⚡ Usage
 
 ```
-$ kusionup install
+$ kusionup init     # Need to run at first execution
+
+$ kusionup ls-ver   # View all installable kusion versions
+github@latest
+github@v0.4.3
+cdn@latest
+cdn@v0.4.3
+
+$ kusionup install cdn@latest   # Install the specified kusion version
 Downloaded   0.0% (     2426 / 139988826 bytes) ...
 Downloaded  11.4% ( 16003466 / 139988826 bytes) ...
 Downloaded  21.0% ( 29433014 / 139988826 bytes) ...
@@ -70,16 +84,14 @@ Downloaded  71.2% ( 99667706 / 139988826 bytes) ...
 Downloaded  81.5% (114078806 / 139988826 bytes) ...
 Downloaded  91.5% (128134166 / 139988826 bytes) ...
 Downloaded 100.0% (139988826 / 139988826 bytes)
-INFO[0053] Unpacking ~/.kusionup/kusion-open@latest/kusion-darwin.tgz ... 
-INFO[0059] Success: latest downloaded in ~/.kusionup/kusion-open@latest 
-INFO[0059] Default Kusion is set to 'open@latest'
+INFO[0053] Unpacking ~/.kusionup/kusion-cdn@latest/kusion-darwin.tgz ... 
+INFO[0059] Success: latest downloaded in ~/.kusionup/kusion-cdn@latest 
+INFO[0059] Default Kusion is set to 'cdn@latest'
 
-$ kusionup show
+$ kusionup show     # View all installed kusion versions
 |    VERSION    | ACTIVE |
 |---------------|--------|
-|     latest    |   *    |
-
-$ kusion version
+|   cdn@latest  |   *    |
 ```
 
 For details, please refer to the [documentation](https://kusionstack.io/docs/user_docs/getting-started/install/kusionup)

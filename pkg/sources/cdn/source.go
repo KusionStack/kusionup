@@ -42,7 +42,7 @@ func (s *releaseSource) GetVersions() []string {
 
 func (s *releaseSource) GetDownloadURL(ver string) (string, error) {
 	vers := s.GetVersions()
-	if ver == "latest" && len(vers) > 0 {
+	if ver == "latest" && len(vers) > 1 {
 		return getArchiveDownloadURL(vers[1])
 	}
 

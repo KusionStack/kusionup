@@ -33,10 +33,16 @@
 
 ### Homebrew
 
-`KusionStack/tap` 有 MacOS 和 GNU/Linux 的预编译二进制版本可用：
+`KusionStack/tap` 有 MacOS 和 GNU/Linux 的预编译二进制版本可用。
 
+第一次安装:
 ```
-brew install KusionStack/tap/kusionup
+brew install KusionStack/tap/kusionup && kusionup init
+```
+
+升级:
+```
+brew upgrade KusionStack/tap/kusionup
 ```
 
 ### 从源码构建
@@ -44,7 +50,7 @@ brew install KusionStack/tap/kusionup
 使用 Go 1.17+ 版本，你可以通过 `go install` 直接从源码安装 `kusionup`：
 
 ```
-go install github.com/KusionStack/kusionup/cmd@latest
+go install github.com/KusionStack/kusionup/cmd@latest && kusionup init
 ```
 
 ### Docker
@@ -58,7 +64,15 @@ docker pull kusionstack/kusionup:latest
 ## ⚡ 使用
 
 ```
-$ kusionup install
+$ kusionup init     # Need to run at first execution
+
+$ kusionup ls-ver   # View all installable kusion versions
+github@latest
+github@v0.4.3
+cdn@latest
+cdn@v0.4.3
+
+$ kusionup install cdn@latest   # Install the specified kusion version
 Downloaded   0.0% (     2426 / 139988826 bytes) ...
 Downloaded  11.4% ( 16003466 / 139988826 bytes) ...
 Downloaded  21.0% ( 29433014 / 139988826 bytes) ...
@@ -70,16 +84,14 @@ Downloaded  71.2% ( 99667706 / 139988826 bytes) ...
 Downloaded  81.5% (114078806 / 139988826 bytes) ...
 Downloaded  91.5% (128134166 / 139988826 bytes) ...
 Downloaded 100.0% (139988826 / 139988826 bytes)
-INFO[0053] Unpacking ~/.kusionup/kusion-open@latest/kusion-darwin.tgz ... 
-INFO[0059] Success: latest downloaded in ~/.kusionup/kusion-open@latest 
-INFO[0059] Default Kusion is set to 'latest'
+INFO[0053] Unpacking ~/.kusionup/kusion-cdn@latest/kusion-darwin.tgz ... 
+INFO[0059] Success: latest downloaded in ~/.kusionup/kusion-cdn@latest 
+INFO[0059] Default Kusion is set to 'cdn@latest'
 
-$ kusionup show
+$ kusionup show     # View all installed kusion versions
 |    VERSION    | ACTIVE |
 |---------------|--------|
-|     latest    |   *    |
-
-$ kusion version
+|   cdn@latest  |   *    |
 ```
 
 详情请参考[文档](https://kusionstack.io/docs/user_docs/getting-started/install/kusionup)
