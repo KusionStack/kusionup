@@ -36,14 +36,32 @@
 `KusionStack/tap` 有 MacOS 和 GNU/Linux 的预编译二进制版本可用。
 
 第一次安装:
+
 ```
 brew install KusionStack/tap/kusionup && kusionup init
 ```
 
 升级:
+
 ```
 brew upgrade KusionStack/tap/kusionup
 ```
+
+### 脚本安装
+
+在 Linux 和 MacOS 环境中，`kusionup` 可以通过脚本一键安装：
+
+```bash
+curl -sSf https://raw.githubusercontent.com/KusionStack/kusionup/main/scripts/install.sh | bash
+```
+
+Or:
+
+```bash
+wget -qO- https://raw.githubusercontent.com/KusionStack/kusionup/main/scripts/install.sh | bash
+```
+
+Windows 或者其它感兴趣的用户可以直接在 Github Release 页面中下载二进制文件。
 
 ### 从源码构建
 

@@ -36,14 +36,32 @@ To get the binary just download the latest release for your OS/Arch from the [re
 The `KusionStack/tap` has macOS and GNU/Linux pre-built binaries available.
 
 First installation:
+
 ```
 brew install KusionStack/tap/kusionup && kusionup init
 ```
 
 Upgrade:
+
 ```
 brew upgrade KusionStack/tap/kusionup
 ```
+
+### Script
+
+The `kusionup` can be installed on Linux and macOS with a small install script:
+
+```bash
+curl -sSf https://raw.githubusercontent.com/KusionStack/kusionup/main/scripts/install.sh | bash
+```
+
+Or:
+
+```bash
+wget -qO- https://raw.githubusercontent.com/KusionStack/kusionup/main/scripts/install.sh | bash
+```
+
+Windows or otherwise interested users can download binaries directly from the GitHub Releases page.
 
 ### Build from Source
 
