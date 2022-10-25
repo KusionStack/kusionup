@@ -465,12 +465,6 @@ install_from_file() {
 
 get_architecture() {
     local arch="$(uname -m)"
-    case "$arch" in
-        # macOS on aarch64 says "arm64" instead.
-        arm64)
-            arch=aarch64
-            ;;
-    esac
     echo "$arch"
 }
 
@@ -486,10 +480,10 @@ check_architecture() {
 
   # Otherwise, check the matrix of OS/architecture support.
   case "$arch/$os" in
-      aarch64/Linux)
+      arm64/Linux)
           return 0
           ;;
-      aarch64/Darwin)
+      arm64/Darwin)
           return 0
           ;;
       s390x/Linux)
@@ -500,7 +494,7 @@ check_architecture() {
           ;;
   esac
 
-  error "Sorry! kusionup currently only provides pre-built binaries for x86_64 (Linux, macOS, Windows), aarch64 (Linux, macOS), and s390x (Linux)."
+  error "Sorry! kusionup currently only provides pre-built binaries for x86_64 (Linux, macOS, Windows), arm64 (Linux, macOS), and s390x (Linux)."
   return 1
 }
 
