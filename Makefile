@@ -1,6 +1,6 @@
 # Default variable
 APPROOT 		?= kusionup
-GOSOURCE_PATHS 	?= ./pkg/... ./cmd/...
+GOSOURCE_PATHS 	?= ./pkg/...
 
 include go.mk
 
@@ -24,25 +24,25 @@ build-darwin: gen-version ## Build for MacOS
 	-rm -rf ./build/darwin
 	GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 \
 		go build -o ./build/darwin/$(APPROOT) \
-		./cmd
+		.
 
 .PHONY: build-darwin-arm64
 build-darwin-arm64: gen-version ## Build for MacOS-arm64
 	-rm -rf ./build/darwin-arm64
 	GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 \
 		go build -o ./build/darwin-arm64/$(APPROOT) \
-		./cmd
+		.
 
 .PHONY: build-linux
 build-linux: gen-version ## Build for Linux
 	-rm -rf ./build/linux
 	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 \
 		go build -o ./build/linux/$(APPROOT) \
-		./cmd
+		.
 
 .PHONY: build-windows
 build-windows: gen-version ## Build for Windows
 	-rm -rf ./build/windows
 	GOOS=windows GOARCH=amd64 CGO_ENABLED=0 \
 		go build -o ./build/windows/$(APPROOT).exe \
-		./cmd
+		.
