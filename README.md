@@ -68,7 +68,7 @@ Windows or otherwise interested users can download binaries directly from the Gi
 Starting with Go 1.17, you can install `kusionup` from source using go install:
 
 ```
-go install github.com/KusionStack/kusionup/cmd@latest && kusionup init
+go install github.com/KusionStack/kusionup@latest && kusionup init
 ```
 
 ### Docker
