@@ -9,14 +9,14 @@ var ErrUnsupportedOsArch = fmt.Errorf("unsupported os/arch: %s/%s", runtime.GOOS
 
 func getArchiveDownloadURL(ver string) (string, error) {
 	archiveDownloadURLMap := map[string]string{
-		"linux-amd64":   "https://github.com/KusionStack/kusion/releases/download/%s/kusion-linux.tgz",
-		"darwin-amd64":  "https://github.com/KusionStack/kusion/releases/download/%s/kusion-darwin.tgz",
-		"darwin-arm64":  "https://github.com/KusionStack/kusion/releases/download/%s/kusion-darwin-arm64.tgz",
-		"windows-amd64": "https://github.com/KusionStack/kusion/releases/download/%s/kusion-windows.tgz",
+		"linux-amd64":   "https://github.com/KusionStack/kusion/releases/download/%s/kusion_%s_linux_amd64.tar.gz",
+		"darwin-amd64":  "https://github.com/KusionStack/kusion/releases/download/%s/kusion_%s_darwin_amd64.tar.gz",
+		"darwin-arm64":  "https://github.com/KusionStack/kusion/releases/download/%s/kusion_%s_darwin_arm64.tar.gz",
+		"windows-amd64": "https://github.com/KusionStack/kusion/releases/download/%s/kusion_%s_windows_amd64.zip",
 	}
 
 	if urlPattern, ok := archiveDownloadURLMap[getOsArchKey(runtime.GOOS, runtime.GOARCH)]; ok {
-		return fmt.Sprintf(urlPattern, ver), nil
+		return fmt.Sprintf(urlPattern, ver, ver[1:]), nil
 	}
 
 	return "", ErrUnsupportedOsArch
