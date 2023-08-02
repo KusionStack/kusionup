@@ -14,7 +14,7 @@ import (
 
 const (
 	// KusionupEnvFileContent is the content of the kusionup environment file
-	KusionupEnvFileContent = `export PATH=$HOME/.kusionup/bin:$HOME/.kusionup/current/bin:$HOME/.kusionup/current/kclvm/bin:$PATH
+	KusionupEnvFileContent = `export PATH=$HOME/.kusionup/bin:$HOME/.kusionup/current/bin:$HOME/.kusionup/current/kclvm/bin:$HOME/.kusionup/current:$PATH
 export KUSION_PATH=$HOME/.kusionup/current
 export KCLVM_CLANG=/usr/bin/clang`
 	// ProfileFileSourceContent is the content of the kusionup profile file
