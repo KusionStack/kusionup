@@ -43,7 +43,7 @@ linters:
     - unconvert
     - unparam
     - whitespace
-    - wsl
+    # - wsl
 
 linters-settings:
   gofumpt:

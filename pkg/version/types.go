@@ -21,12 +21,12 @@ var versionInfo *Info
 // Info contains versioning information.
 // following attributes:
 //
-//    ReleaseVersion - "vX.Y.Z-00000000" used to indicate the last release version,
-// 		  containing GitVersion and GitCommitShort.
-//    GitVersion - "vX.Y.Z" used to indicate the last git tag.
-//    GitCommit - The git commit id corresponding to this source code.
-//    GitTreeState - "clean" indicates no changes since the git commit id
-//        "dirty" indicates source code changes after the git commit id
+//	   ReleaseVersion - "vX.Y.Z-00000000" used to indicate the last release version,
+//			  containing GitVersion and GitCommitShort.
+//	   GitVersion - "vX.Y.Z" used to indicate the last git tag.
+//	   GitCommit - The git commit id corresponding to this source code.
+//	   GitTreeState - "clean" indicates no changes since the git commit id
+//	       "dirty" indicates source code changes after the git commit id
 type Info struct {
 	ReleaseVersion string      `json:"releaseVersion" yaml:"releaseVersion"`                 // Such as "v1.2.3-3836f877"
 	GitVersion     string      `json:"gitVersion" yaml:"gitVersion"`                         // Such as "v1.2.3"
