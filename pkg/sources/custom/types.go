@@ -1,7 +1,9 @@
 package custom
 
 import (
+	"bytes"
 	"fmt"
+	"html/template"
 	"runtime"
 )
 
@@ -14,11 +16,20 @@ func getArchiveDownloadURL(archiveDownloadURLMap map[string]string, ver string) 
 	if archiveDownloadURLMap == nil {
 		return "", ErrEmptyDownloadURLMap
 	}
-
-	if urlPattern, ok := archiveDownloadURLMap[getOsArchKey(runtime.GOOS, runtime.GOARCH)]; ok {
-		return fmt.Sprintf(urlPattern, ver), nil
+	osArchKey := getOsArchKey(runtime.GOOS, runtime.GOARCH)
+	if urlPattern, ok := archiveDownloadURLMap[osArchKey]; ok {
+		tmpl, err := template.New("").Parse(urlPattern)
+		if err != nil {
+			return "", err
+		}
+		var buf bytes.Buffer
+		data := struct{ VERSION string }{ver}
+		if err := tmpl.Execute(&buf, data); err != nil {
+			return "", err
+		}
+		fmt.Println(buf.String())
+		return buf.String(), nil
 	}
-
 	return "", ErrUnsupportedOsArch
 }
 
