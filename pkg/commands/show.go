@@ -2,7 +2,6 @@ package commands
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -66,7 +65,7 @@ type goVer struct {
 }
 
 func listKusionVers() ([]goVer, error) {
-	files, err := ioutil.ReadDir(KusionupDir())
+	files, err := os.ReadDir(KusionupDir())
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +78,11 @@ func listKusionVers() ([]goVer, error) {
 	var vers []goVer
 
 	for _, file := range files {
-		if strings.HasPrefix(file.Name(), "kusion") {
+		if file.IsDir() && strings.HasPrefix(file.Name(), "kusion") {
+			if _, err := os.Stat(KusionupDir(file.Name(), unpackedOkay)); err != nil {
+				// only list successfully unpacked verions
+				continue
+			}
 			vers = append(vers, goVer{
 				Ver:     strings.TrimPrefix(file.Name(), "kusion-"),
 				Current: current == file.Name(),

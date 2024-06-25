@@ -108,10 +108,6 @@ func install(source, version string) error {
 		return nil
 	}
 
-	if err := os.MkdirAll(targetDir, 0o755); err != nil {
-		return err
-	}
-
 	// Get download url
 	rs := registedReleaseSources[source]
 
@@ -133,6 +129,11 @@ func install(source, version string) error {
 
 	if res.StatusCode != http.StatusOK {
 		return fmt.Errorf("server returned %v checking size of %v", http.StatusText(res.StatusCode), downloadURL)
+	}
+
+	// Create download dir
+	if err := os.MkdirAll(targetDir, 0o755); err != nil {
+		return err
 	}
 
 	// Download
